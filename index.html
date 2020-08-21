@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <title>Guess The Word</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="grid">
+            <h2>Guess The Word</h2>
+            <p id="guess-count">Guesses: 0</p>
+            <p id="clock">Time: <time>00:00:00</time></p>
+            <button type="button" class="start-button" id="start-button">Start Game</button>
+            <span hidden><input type="text" id="user-input" placeholder="Banana, Skyscraper, Automobile">
+                <button type="button" class="guess-button" id="guess-button">Guess</button></span>
+            <small hidden>Guess my word, any english word.</small>
+            <ul id="guesses"></ul>
+        </div>
+        <button type="button" class="give-up-button" id="give-up">Given Up?</button>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
