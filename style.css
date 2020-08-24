@@ -49,6 +49,18 @@ ul li{
     border:none;
     outline:none;
 }
+.restart-button{
+    margin-top:10rem;
+    margin-bottom: 2rem;;
+    height:2.32rem;
+    width:30%;
+    margin-left:11rem;
+    background:#F39C12;
+    font-size: 1rem;
+    color:white;
+    border:none;
+    outline:none;
+}
 .guess-button{
     height:2.32rem;
     width:16%;
@@ -58,6 +70,7 @@ ul li{
     border:none;
     outline:none;
 }
+
 .give-up-button{
     position: fixed;
     bottom: 25px;

@@ -22,6 +22,8 @@ Game.prototype.init = function(){
 Game.prototype.addEventListeners = function(){
     $(document).on('click','#give-up',this.gameOver);
     $(document).on('click','#start-button',this.startGame);
+    $(document).on('click','#restart-button',this.restartGame);
+
 }
 
 /*
@@ -32,6 +34,8 @@ Game.prototype.startGame = function(){
     for(node of this.parentNode.childNodes){
         node.hidden = false;
     }
+    $('#restart-button').hide();
+    $('#give-up').show();
     this.hidden = true;
     stopWatch.startTime();
 }
@@ -40,11 +44,22 @@ Function gameOver triggers if the player guesses the correct word or the player 
 Stops the clock, hides the guesses, and displays the results
 */
 Game.prototype.gameOver = function(guess){
-    html = Word.winner ? `<span class="winner">Congrats! You guessed ${guess}!</span>` :  `<span>Looks like you gave up! The word was <b>${Word.todaysWord}</b></span>`;
+    html = Word.winner ? `<span class="winner">Congrats! You guessed <b>${guess}</b>!</span>` :  `<span>Looks like you gave up! The word was <b>${Word.todaysWord}</b></span>`;
     Word.guessList.hidden = true;
     stopWatch.stopTime();
+    for(node of $('#header').nextAll()){
+       $(node).hide();
+    }
+    $('#restart-button').show();
+    $('#give-up').hide();
     $('.grid').append(html);
 }
+
+Game.prototype.restartGame = function(){
+    location.reload();
+}
+
+
 /*
 stopWatch class that handles the time of the game. Time is triggered once the game starts,
 ends when the game is over. Counts up from 0. 
@@ -107,7 +122,7 @@ Word class that handles everything to do with the current word guessin game. Giv
 word to guess, gets the users guess, checks if the guess is right
 */
 function Word() {
-    this.words = ["Number", "Letter", "More", "pour", "habit", "jest", "eject", "consensus", "particular", "ordinary", "characteristic", "hobby", "barrel", "sympathetic", "pest", "sphere", "dribble", "cooperative", "architecture", "printer", "exceed", "beat", "joy"]
+    this.words = ["number", "letter", "more", "pour", "habit", "jest", "eject", "consensus", "particular", "ordinary", "characteristic", "hobby", "barrel", "sympathetic", "pest", "sphere", "dribble", "cooperative", "architecture", "printer", "exceed", "beat", "joy"]
     this.guesses = [];
     this.todaysWord = this.todaysWord();
     this.guessList = document.getElementById('guesses');
@@ -173,7 +188,7 @@ Word.prototype.guessWord = function (event) {
 Check if the guess is a winner 
 */
 Word.prototype.isWinner = function (guess) {
-    return guess == Word.todaysWord;
+    return guess.toLowerCase() == Word.todaysWord;
 }
 
 /*
@@ -208,4 +223,5 @@ $(window).on('load', function () {
     window.Game = new Game();
     window.Word = new Word();
     window.stopWatch = new stopWatch();
+    console.log(Word.todaysWord)
 })
