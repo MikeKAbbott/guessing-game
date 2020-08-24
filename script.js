@@ -33,17 +33,25 @@ Game.prototype.addEventListeners = function () {
 Triggers once the start game button is fired. Hides the start button,
 makes all other fields visible.
 */
+
 Game.prototype.startGame = function () {
-    for (node of this.parentNode.childNodes) {
-        node.hidden = false;
+    if($("#difficulty-normal").prop("checked") || $("#difficulty-hard").prop("checked")){
+        //show the input field and guess button
+        for (node of this.parentNode.childNodes) {
+            node.hidden = false;
+        }
+        Game.setDifficulty();
+        Word.setWord();
+        //hide the difficulty, and start button and restart button
+        $(this).hide();
+        $('fieldset').hide();
+        $('#restart-button').hide();
+        //show the give up buttom
+        $('#give-up').show();
+        stopWatch.startTime();
     }
-    Game.setDifficulty();
-    Word.setWord();
-    $('#restart-button').hide();
-    $('#give-up').show();
-    $(this).hide();
-    stopWatch.startTime();
 }
+
 /* 
 Function gameOver triggers if the player guesses the correct word or the player gives up.
 Stops the clock, hides the guesses, and displays the results
@@ -51,12 +59,12 @@ Stops the clock, hides the guesses, and displays the results
 Game.prototype.gameOver = function (guess) {
     html = Word.winner ? `<span class="winner">Congrats! You guessed <b>${guess}</b>!</span>` : `<span>Looks like you gave up! The word was <b>${Word.currentWord}</b></span>`;
     Word.guessList.hidden = true;
-    stopWatch.stopTime();
     for (node of $('#clock').nextAll()) {
         $(node).hide();
     }
     $('#restart-button').show();
     $('#give-up').hide();
+    stopWatch.stopTime();
     $('.grid').append(html);
 }
 
@@ -72,19 +80,21 @@ stopWatch class that handles the time of the game. Time is triggered once the ga
 ends when the game is over. Counts up from 0. 
 */
 function stopWatch() {
-    this.init();
-}
-stopWatch.prototype.init = function () {
     this.seconds = 0;
     this.minutes = 0;
     this.hours = 0;
     this.time;
     this.watch = document.getElementById('clock');
+    this.init();
+}
+
+stopWatch.prototype.init = function () {
     this.addEventListeners();
 }
 stopWatch.prototype.addEventListeners = function () {
-    $(document).on('click', '#guess-button', this.startTime);
+    return;
 }
+
 /*
 Counting function that adds seconds, minutes, and hours. 
 */
@@ -120,7 +130,7 @@ stopWatch.prototype.startTime = function (event) {
 stops the timer 
 */
 stopWatch.prototype.stopTime = function () {
-    clearTimeout(stopWatch.time);
+    clearInterval(stopWatch.time);
 }
 
 
@@ -471,22 +481,22 @@ Reset the user input.
 */
 Word.prototype.guessWord = function (event) {
     if ((event.which === 13 || event.type === "click")) {
+        Word.counter++;
         if (!Word.winner) {
             var guess = Word.getInput();
             if (Word.isWinner(guess)) {
-                Word.winner = true;
                 Game.gameOver(guess);
             } else {
                 if (!Word.guesses.includes(guess)) {
                     Word.guesses.push(guess);
                     html = `<li>${guess}</li>`
                     Word.guessList.innerHTML += html;
-                    $("#guess-count").html(`Guesses: ${++Word.counter}`)
                     Word.giveHint();
                 } else {
                     alert('you already guessed that word!')
                 }
             }
+            $("#guess-count").html(`Guesses: ${Word.counter}`)
             Word.userInput.value = "";
         } else {
             alert('The game is over!')
@@ -498,6 +508,7 @@ Word.prototype.guessWord = function (event) {
 Check if the guess is a winner 
 */
 Word.prototype.isWinner = function (guess) {
+    Word.winner = guess.toLowerCase() == Word.currentWord ? true : false;
     return guess.toLowerCase() == Word.currentWord;
 }
 
@@ -523,7 +534,7 @@ Word.prototype.giveHint = function () {
 Select a random word from the list
 */
 Word.prototype.setWord = function () {
-    word =  Game.difficulty == "normal" ? this.normalWords[Math.floor(Math.random() * this.normalWords.length)] : this.hardWords[Math.floor(Math.random() * this.hardWords.length)]
+    word =  Game.difficulty == "normal" ? Word.normalWords[Math.floor(Math.random() * Word.normalWords.length)] : Word.hardWords[Math.floor(Math.random() * Word.hardWords.length)]
     Word.currentWord = word;
     return word    
 }
