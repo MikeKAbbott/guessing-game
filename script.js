@@ -9,20 +9,20 @@ Game class starts and ends the game based. This includes the start game function
 once teh start game button is pressed and end game function that triggers when the player 
 guesses the correct word, or gives up.
 */
-function Game(){
+function Game() {
     this.init();
 }
 
 //Initializes the event listeners
-Game.prototype.init = function(){
+Game.prototype.init = function () {
     this.addEventListeners();
 }
 
 //Adds the start and give up button to the event listener
-Game.prototype.addEventListeners = function(){
-    $(document).on('click','#give-up',this.gameOver);
-    $(document).on('click','#start-button',this.startGame);
-    $(document).on('click','#restart-button',this.restartGame);
+Game.prototype.addEventListeners = function () {
+    $(document).on('click', '#give-up', this.gameOver);
+    $(document).on('click', '#start-button', this.startGame);
+    $(document).on('click', '#restart-button', this.restartGame);
 
 }
 
@@ -30,8 +30,8 @@ Game.prototype.addEventListeners = function(){
 Triggers once the start game button is fired. Hides the start button,
 makes all other fields visible.
 */
-Game.prototype.startGame = function(){
-    for(node of this.parentNode.childNodes){
+Game.prototype.startGame = function () {
+    for (node of this.parentNode.childNodes) {
         node.hidden = false;
     }
     $('#restart-button').hide();
@@ -43,19 +43,19 @@ Game.prototype.startGame = function(){
 Function gameOver triggers if the player guesses the correct word or the player gives up.
 Stops the clock, hides the guesses, and displays the results
 */
-Game.prototype.gameOver = function(guess){
-    html = Word.winner ? `<span class="winner">Congrats! You guessed <b>${guess}</b>!</span>` :  `<span>Looks like you gave up! The word was <b>${Word.todaysWord}</b></span>`;
+Game.prototype.gameOver = function (guess) {
+    html = Word.winner ? `<span class="winner">Congrats! You guessed <b>${guess}</b>!</span>` : `<span>Looks like you gave up! The word was <b>${Word.todaysWord}</b></span>`;
     Word.guessList.hidden = true;
     stopWatch.stopTime();
-    for(node of $('#header').nextAll()){
-       $(node).hide();
+    for (node of $('#header').nextAll()) {
+        $(node).hide();
     }
     $('#restart-button').show();
     $('#give-up').hide();
     $('.grid').append(html);
 }
 
-Game.prototype.restartGame = function(){
+Game.prototype.restartGame = function () {
     location.reload();
 }
 
@@ -64,10 +64,10 @@ Game.prototype.restartGame = function(){
 stopWatch class that handles the time of the game. Time is triggered once the game starts,
 ends when the game is over. Counts up from 0. 
 */
-function stopWatch(){
+function stopWatch() {
     this.init();
 }
-stopWatch.prototype.init = function(){
+stopWatch.prototype.init = function () {
     this.seconds = 0;
     this.minutes = 0;
     this.hours = 0;
@@ -75,18 +75,18 @@ stopWatch.prototype.init = function(){
     this.watch = document.getElementById('clock');
     this.addEventListeners();
 }
-stopWatch.prototype.addEventListeners = function(){
-    $(document).on('click','#guess-button',this.startTime);
+stopWatch.prototype.addEventListeners = function () {
+    $(document).on('click', '#guess-button', this.startTime);
 }
 /*
 Counting function that adds seconds, minutes, and hours. 
 */
-stopWatch.prototype.add = function(){
-    stopWatch.seconds ++;
-    if(stopWatch.seconds >= 60){
+stopWatch.prototype.add = function () {
+    stopWatch.seconds++;
+    if (stopWatch.seconds >= 60) {
         stopWatch.seconds = 0;
         stopWatch.minutes++;
-        if(stopWatch.minutes >= 60){
+        if (stopWatch.minutes >= 60) {
             stopWatch.minutes = 0;
             stopWatch.hours++;
         }
@@ -98,21 +98,21 @@ stopWatch.prototype.add = function(){
 /*
 Resets the clock 
 */
-stopWatch.prototype.clear = function(){
+stopWatch.prototype.clear = function () {
     stopWatch.watch.textContent = "Time: 00:00:00";
 }
 
 /*
 starts the timer, with the add helper function
 */
-stopWatch.prototype.startTime = function(event){
-    stopWatch.time = setTimeout(stopWatch.add,1000);
+stopWatch.prototype.startTime = function (event) {
+    stopWatch.time = setTimeout(stopWatch.add, 1000);
 }
 
 /*
 stops the timer 
 */
-stopWatch.prototype.stopTime = function(){
+stopWatch.prototype.stopTime = function () {
     clearTimeout(stopWatch.time);
 }
 
@@ -122,7 +122,311 @@ Word class that handles everything to do with the current word guessin game. Giv
 word to guess, gets the users guess, checks if the guess is right
 */
 function Word() {
-    this.words = ["number", "letter", "more", "pour", "habit", "jest", "eject", "consensus", "particular", "ordinary", "characteristic", "hobby", "barrel", "sympathetic", "pest", "sphere", "dribble", "cooperative", "architecture", "printer", "exceed", "beat", "joy"]
+    this.normalWords = ['course','against','ready','daughter','work','friends','minute','though','supposed','honey','point','start','check','alone','matter','office','hospital','three','already','anyway','important','tomorrow','almost','later','found','trouble','excuse','hello','money','different','between','every','party','either','enough','year','house','story','crazy','mind','break','tonight','person','sister','pretty','trust','funny','gift','change','business','train','under','close','reason','today','beautiful','brother','since','bank','yourself','without','until','forget','anyone','promise','happy','bake','worry','school','afraid','cause','doctor','exactly','second','phone','look','feel','somebody','stuff','elephant','morning','heard','world','chance','call','watch','whatever','perfect','dinner','family','heart','least','answer','woman','bring','probably','question','stand','truth','problem','patch','pass','famous','true','power','cool','last','fish','remote','race','noon','wipe','grow','jumbo','learn','itself','chip','print','young','argue','clean','remove','flip','flew','replace','kangaroo','side','walk','gate','finger','target','judge','push','thought','wear','desert','relief','basic','bright','deal','father','machine','know','step','exercise','present','wing','lake','beach','ship','wait','fancy','eight','hall','rise','river','round','girl','winter','speed','long','oldest','lock','kiss','lava','garden','fight','hook','desk','test','serious','exit','branch','keyboard','naked','science','trade','quiet','home','prison','blue','window','whose','spot','hike','laptop','dark','create','quick','face','freeze','plug','menu','terrible','accept','door','touch','care','rescue','ignore','real','title','city','fast','season','town','picture','tower','zero','engine','lift','respect','time','mission','play','discover','nail','half','unusual','ball','tool','heavy','night','farm','firm','gone','help','easy','library','group','jungle','taste','large','imagine','normal','outside','paper','nose','long','queen','olive','doing','moon','hour','protect','hate','dead','double','nothing','restaurant','reach','note','tell','baby','future','tall','drop','speak','rule','pair','ride','ticket','game','hair','hurt','allow','oven','live','horse','bottle','rock','public','find','garage','green','heat','plan','mean','little','spend','nurse','practice','wish','uncle','core','stop','number','nest','magazine','pool','message','active','throw','pull','level','wrist','bubble','hold','movie','huge','ketchup','finish','pilot','teeth','flag','head','private','together','jewel','child','decide','listen','garbage','jealous','wide','straight','fall','joke','table','spread','laundry','deep','quit','save','worst','email','glass','scale','safe','path','camera','excellent','place','zone','luck','tank','sign','report','myself','knee','need','root','light','sure','page','life','space','magic','size','tape','food','wire','period','mistake','full','paid','horrible','special','hidden','rain','field','kick','ground','screen','risky','junk','juice','human','nobody','mall','bathroom','high','class','street','cold','metal','nervous','bike','internet','wind','lion','summer','president','empty','square','jersey','worm','popular','loud','online','something','photo','knot','mark','zebra','road','storm','grab','record','said','floor','theater','kitchen','action','equal','nice','dream','sound','fifth','comfy','talk','police','draw','bunch','idea','jerk','copy','success','team','favor','open','neat','whale','gold','free','mile','lying','meat','nine','wonderful','hero','quilt','info','radio','move','early','remember','understand','month','everyone','quarter','center','universe','name','zoom','inside','label','yell','jacket','nation','support','lunch','twice','hint','jiggle','boot','alive','build','date','room','fire','music','leader','rest','plant','connect','land','body','belong','trick','wild','quality','band','health','website','love','hand','okay','yeah','dozen','glove','give','thick','flow','project','tight','join','cost','trip','lower','magnet','parent','grade','angry','line','rich','owner','block','shut','neck','write','hotel','danger','impossible','illegal','show','come','want','truck','click','chocolate','none','done','bone','hope','share','cable','leaf','water','teacher','dust','orange','handle','unhappy','guess','past','frame','knob','winner','ugly','lesson','bear','gross','midnight','grass','middle','birthday','rose','useless','hole','drive','loop','color','sell','unfair','send','crash','knife','wrong','guest','strong','weather','kilometer','undo','catch','neighbor','stream','random','continue','return','begin','kitten','thin','pick','whole','useful','rush','mine','toilet','enter','wedding','wood','meet','stolen','hungry','card','fair','crowd','glow','ocean','peace','match','hill','welcome','across','drag','island','edge','great','unlock','feet','iron','wall','laser','fill','boat','weird','hard','happen','tiny','event','math','robot','recently','seven','tree','rough','secret','nature','short','mail','inch','raise','warm','gentle','glue','roll','search','regular','here','count','hunt','keep','week',]
+    //from vocabulary.com
+    this.hardWords = [
+        "abject",
+        "aberration",
+        "abjure",
+        "abnegation",
+        "abrogate",
+        "abscond",
+        "abstruse",
+        "accede",
+        "accost",
+        "accretion",
+        "acumen",
+        "adamant",
+        "admonish",
+        "adumbrate",
+        "adverse",
+        "advocate",
+        "affluent",
+        "aggrandize",
+        "alacrity",
+        "alias",
+        "ambivalent",
+        "amenable",
+        "amorphous",
+        "anachronistic",
+        "anathema",
+        "annex",
+        "antediluvian",
+        "antiseptic",
+        "apathetic",
+        "antithesis",
+        "apocryphal",
+        "approbation",
+        "arbitrary",
+        "arboreal",
+        "arcane",
+        "archetypal",
+        "arrogate",
+        "ascetic",
+        "aspersion",
+        "assiduous",
+        "atrophy",
+        "bane",
+        "bashful",
+        "beguile",
+        "bereft",
+        "blandishment",
+        "bilk",
+        "bombastic",
+        "cajole",
+        "callous",
+        "calumny",
+        "camaraderie",
+        "candor",
+        "capitulate",
+        "carouse",
+        "carp",
+        "caucus",
+        "cavort",
+        "circumlocution",
+        "circumscribe",
+        "circumvent",
+        "clamor",
+        "cleave",
+        "cobbler",
+        "cogent",
+        "cognizant",
+        "commensurate",
+        "complement",
+        "compunction",
+        "concomitant",
+        "conduit",
+        "conflagration",
+        "congruity",
+        "connive",
+        "consign",
+        "constituent",
+        "construe",
+        "contusion",
+        "contrite",
+        "contentious",
+        "contravene",
+        "convivial",
+        "corpulence",
+        "covet",
+        "cupidity",
+        "dearth",
+        "debacle",
+        "debauch",
+        "debunk",
+        "defunct",
+        "demagogue",
+        "denigrate",
+        "derivative",
+        "despot",
+        "diaphanous",
+        "didactic",
+        "dirge",
+        "disaffected",
+        "discomfit",
+        "disparate",
+        "dispel",
+        "disrepute",
+        "divisive",
+        "dogmatic",
+        "dour",
+        "duplicity",
+        "duress",
+        "eclectic",
+        "edict",
+        "ebullient",
+        "egregious",
+        "elegy",
+        "elicit",
+        "embezzlement",
+        "emend",
+        "emollient",
+        "empirical",
+        "emulate",
+        "enervate",
+        "enfranchise",
+        "engender",
+        "ephemeral",
+        "epistolary",
+        "equanimity",
+        "equivocal",
+        "espouse",
+        "evanescent",
+        "evince",
+        "exacerbate",
+        "exhort",
+        "execrable",
+        "exigent",
+        "expedient",
+        "expiate",
+        "expunge",
+        "extraneous",
+        "extol",
+        "extant",
+        "expurgate",
+        "fallacious",
+        "fatuous",
+        "fetter",
+        "flagrant",
+        "foil",
+        "forbearance",
+        "fortuitous",
+        "fractious",
+        "garrulous",
+        "gourmand",
+        "grandiloquent",
+        "gratuitous",
+        "hapless",
+        "hegemony",
+        "heterogenous",
+        "iconoclast",
+        "idiosyncratic",
+        "impecunious",
+        "impetuous",
+        "impinge",
+        "impute",
+        "inane",
+        "inchoate",
+        "incontrovertible",
+        "incumbent",
+        "inexorable",
+        "inimical",
+        "injunction",
+        "inoculate",
+        "insidious",
+        "instigate",
+        "insurgent",
+        "interlocutor",
+        "intimation",
+        "inure",
+        "invective",
+        "intransigent",
+        "inveterate",
+        "irreverence",
+        "knell",
+        "laconic",
+        "largesse",
+        "legerdemain",
+        "libertarian",
+        "licentious",
+        "linchpin",
+        "litigant",
+        "maelstrom",
+        "maudlin",
+        "maverick",
+        "mawkish",
+        "maxim",
+        "mendacious",
+        "modicum",
+        "morass",
+        "mores",
+        "munificent",
+        "multifarious",
+        "nadir",
+        "negligent",
+        "neophyte",
+        "noisome",
+        "noxious",
+        "obdurate",
+        "obfuscate",
+        "obstreperous",
+        "officious",
+        "onerous",
+        "ostensible",
+        "ostracism",
+        "palliate",
+        "panacea",
+        "paradigm",
+        "pariah",
+        "partisan",
+        "paucity",
+        "pejorative",
+        "pellucid",
+        "penchant",
+        "penurious",
+        "pert",
+        "pernicious",
+        "pertinacious",
+        "phlegmatic",
+        "philanthropic",
+        "pithy",
+        "platitude",
+        "plaudit",
+        "plenitude",
+        "plethora",
+        "portent",
+        "potentate",
+        "preclude",
+        "predilection",
+        "preponderance",
+        "presage",
+        "probity",
+        "proclivity",
+        "profligate",
+        "promulgate",
+        "proscribe",
+        "protean",
+        "prurient",
+        "puerile",
+        "pugnacious",
+        "pulchritude",
+        "punctilious",
+        "quaint",
+        "quixotic",
+        "quandary",
+        "recalcitrant",
+        "redoubtable",
+        "relegate",
+        "remiss",
+        "reprieve",
+        "reprobate",
+        "rescind",
+        "requisition",
+        "rife",
+        "sanctimonious",
+        "sanguine",
+        "scurrilous",
+        "semaphore",
+        "serendipity",
+        "sobriety",
+        "solicitous",
+        "solipsism",
+        "spurious",
+        "staid",
+        "stolid",
+        "subjugate",
+        "surfeit",
+        "surreptitious",
+        "swarthy",
+        "tangential",
+        "tome",
+        "toady",
+        "torpid",
+        "travesty",
+        "trenchant",
+        "trite",
+        "truculent",
+        "turpitude",
+        "ubiquitous",
+        "umbrage",
+        "upbraid",
+        "utilitarian",
+        "veracity",
+        "vestige",
+        "vicissitude",
+        "vilify",
+        "virtuoso",
+        "vitriolic",
+        "vituperate",
+        "vociferous",
+        "wanton",
+        "winsome",
+        "yoke",
+        "zephyr",
+        "wily",
+        "tirade",
+    ];
+
     this.guesses = [];
     this.todaysWord = this.todaysWord();
     this.guessList = document.getElementById('guesses');
@@ -140,7 +444,7 @@ Adds event listeners to the guess button and user input
 Word.prototype.addEventListeners = function () {
     $(document).on('click', '#guess-button', this.guessWord);
     $(document).on('keyup', '#user-input', this.guessWord);
-    
+
 }
 /*
 get user input 
@@ -164,8 +468,7 @@ Word.prototype.guessWord = function (event) {
             if (Word.isWinner(guess)) {
                 Word.winner = true;
                 Game.gameOver(guess);
-            } 
-            else {
+            } else {
                 if (!Word.guesses.includes(guess)) {
                     Word.guesses.push(guess);
                     html = `<li>${guess}</li>`
@@ -177,10 +480,9 @@ Word.prototype.guessWord = function (event) {
                 }
             }
             Word.userInput.value = "";
-        }
-        else {
+        } else {
             alert('The game is over!')
-        } 
+        }
     }
 }
 
@@ -199,10 +501,10 @@ Word.prototype.giveHint = function () {
     var guess = lastItem.innerHTML;
     var compare = [guess, Word.todaysWord];
     compare.sort()
-    if($('li').length > 1){
+    if ($('li').length > 1) {
         $(lastItem).prev().children().remove('span');
     }
-    if (compare[0] == guess){
+    if (compare[0] == guess) {
         $(lastItem).prepend('<span>The word is <b>after: </b></span> ');
     } else {
         $(lastItem).prepend('<span>The word is <b>before: </b><span> ');
@@ -213,8 +515,9 @@ Word.prototype.giveHint = function () {
 Select a random word from the list
 */
 Word.prototype.todaysWord = function () {
-    return this.words[Math.floor(Math.random() * this.words.length)];
+    return this.normalWords[Math.floor(Math.random() * this.normalWords.length)];
 }
+
 
 /*
 New instances of all the classes 

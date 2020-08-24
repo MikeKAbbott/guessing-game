@@ -76,7 +76,7 @@ ul li{
     bottom: 25px;
     right: 25px; 
     height:2.32rem;
-    width:8%;
+    width:10%;
     background:#1A5276;
     font-size: 1rem;
     color:white;
@@ -89,4 +89,10 @@ button:active{
 }
 button:focus{
     outline:none;
+}
+
+@media (max-width:700px){
+    .give-up-button{
+        width:16%;
+    }
 }
