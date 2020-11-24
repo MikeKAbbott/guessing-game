@@ -468,7 +468,33 @@ Word.prototype.addEventListeners = function () {
 get user input 
 */
 Word.prototype.getInput = function () {
-    return Word.userInput.value;
+    if (Word.invalidInput()){
+        return Word.userInput.value;
+    }
+    
+}
+
+Word.prototype.clearInput = function(){
+    Word.userInput.value = "";
+}
+
+Word.prototype.invalidInput = function(){
+    var warning = document.createElement("small");
+    var parent = Word.userInput.parentNode;
+    warning.innerHTML = "Your guess must be an english word"
+    warning.style.color = "red";
+    warning.id = "warning";
+    if (Word.userInput.value.search(/[0-9]/) > -1){
+        parent.insertBefore(warning,Word.userInput);
+        Word.userInput.style.borderColor = "red";
+        Word.clearInput();
+        return false;
+    }
+    else if (document.getElementById("warning")){
+        parent.removeChild(document.getElementById("warning"));
+        Word.userInput.style.borderColor = "#ccc";
+    } 
+    return true;
 }
 
 /*
@@ -481,13 +507,16 @@ Reset the user input.
 */
 Word.prototype.guessWord = function (event) {
     if ((event.which === 13 || event.type === "click")) {
-        Word.counter++;
         if (!Word.winner) {
             var guess = Word.getInput();
+            if(!guess){
+                return
+            }
             if (Word.isWinner(guess)) {
                 Game.gameOver(guess);
             } else {
                 if (!Word.guesses.includes(guess)) {
+                    Word.counter++;
                     Word.guesses.push(guess);
                     html = `<li>${guess}</li>`
                     Word.guessList.innerHTML += html;
@@ -497,7 +526,7 @@ Word.prototype.guessWord = function (event) {
                 }
             }
             $("#guess-count").html(`Guesses: ${Word.counter}`)
-            Word.userInput.value = "";
+            Word.clearInput();
         } else {
             alert('The game is over!')
         }
