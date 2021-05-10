@@ -57,7 +57,7 @@ Function gameOver triggers if the player guesses the correct word or the player 
 Stops the clock, hides the guesses, and displays the results
 */
 Game.prototype.gameOver = function (guess) {
-    html = Word.winner ? `<span class="winner">Congrats! You guessed <b>${guess}</b>!</span>` : `<span>Looks like you gave up! The word was <b>${Word.currentWord}</b></span>`;
+    html = Word.winner ? `<div class="winner mka-margin-top-sm">Congrats! You guessed <b>${guess}</b>!</div>` : `<div class="mka-margin-top-sm">Looks like you gave up! The word was <b>${Word.currentWord}</b></div>`;
     Word.guessList.hidden = true;
     for (node of $('#clock').nextAll()) {
         $(node).hide();
@@ -65,7 +65,7 @@ Game.prototype.gameOver = function (guess) {
     $('#restart-button').show();
     $('#give-up').hide();
     stopWatch.stopTime();
-    $('.grid').append(html);
+    $('#main-content').append(html);
 }
 
 /* 

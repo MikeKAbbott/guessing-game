@@ -4,42 +4,44 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="mka-styles.css" />
     <link rel="stylesheet" type="text/css" href="style.css" />
     <title>Guess The Word</title>
 </head>
 
 <body>
-    <div class="container">
-        <div class="grid">
-            <h2 id="header">Guess The Word</h2>
-            <p id="guess-count">Guesses: 0</p>
-            <p id="clock">Time: <time>00:00:00</time></p>
-            <fieldset>
-                <legend></legend>
-                <ul>
-                    <li>
-                        <label><input  type="radio" name="difficulty" id="difficulty-normal">Normal</label>
-                    </li>
-                    <li>
-                        <label><input type="radio" name="difficulty" id="difficulty-hard">Hard</label>
-                    </li>
-                </ul> 
-            </fieldset>
-            <button type="button" class="start-button" id="start-button">Start Game</button>
+    <div class="mka-container ">
+        <div class="mka-grid mka-center">
+            <div class="mka-grid_item-xlg" id="main-content">
+                <h2 id="header">Guess The Word</h2>
+                <p id="guess-count">Guesses: 0</p>
+                <p id="clock">Time: <time>00:00:00</time></p>
+                <fieldset>
+                    <ul class="mka-inline-list">
+                        <li>
+                            <label><input type="radio" name="difficulty" id="difficulty-normal" class="mka-input-radio">Normal</label>
+                        </li>
+                        <li>
+                            <label><input type="radio" name="difficulty" id="difficulty-hard" class="mka-input-radio">Hard</label>
+                        </li>
+                    </ul>
+                </fieldset>
+                <button type="button" class="mka-button" id="start-button">Start Game</button>
                 <span id="input-container" hidden>
+                    <small hidden>Guess a word, any english word.</small>
                     <label for="user-input" hidden></label>
-                    <input type="text" id="user-input" placeholder="e.g: banana, skyscraper, automobile" />
-                    <button type="button" class="guess-button" id="guess-button">Guess</button>
+                    <input type="text" class="mka-input-text mka-width-md mka-margin-bottom-sm" id="user-input" placeholder="e.g: banana, skyscraper, automobile" />
+                    <button type="button" class="mka-button" id="guess-button">Guess</button>
                 </span>
-            <small hidden>Guess a word, any english word.</small>
-            <ul id="guesses"></ul>
-            <button type="button" class="restart-button" id="restart-button" hidden>
-                New Game
-            </button>
+                <ul id="guesses"></ul>
+                <button type="button" class="mka-button" style="display:none;" id="restart-button" hidden>New Game</button>
+            </div>
+            <div class="mka-grid_item-xlg mka-margin-top-xlg">
+                <button type="button" class="mka-button give-up-button" style="display: none;" id="give-up" hidden>Given Up?</button>
+            </div>
         </div>
-        <button type="button" class="give-up-button" id="give-up" hidden>
-            Given Up?
-        </button>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script src="script.js"></script>
