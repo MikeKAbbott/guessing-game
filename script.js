@@ -1,5 +1,6 @@
 /*
-TODO: 1. the guess is an actual word
+TODO: 1. the guess is an actual word.
+TODO: 2. cache the players browser and show game history.
 */
 
 /*
@@ -12,28 +13,44 @@ function Game() {
     this.init();
 }
 
-//Initializes the event listeners
+/*
+*   Function    : init
+*   Parameters  : None
+*   Returns     : None
+*   Description : Initializes the game class
+*/
 Game.prototype.init = function () {
     this.addEventListeners();
 }
 
-//sets the games difficulty by getting the users radio button input
+/*
+*   Function    : setDifficulty
+*   Parameters  : None
+*   Returns     : None
+*   Description : grabs the difficulty selected by the user and sets the class attribute
+*/
 Game.prototype.setDifficulty = function(){  
     Game.difficulty = $("#difficulty-normal").prop("checked") ? "normal" : "hard";
 }
-//Adds the start and give up button to the event listener
+
+/*
+*   Function    : addEventListeners
+*   Parameters  : None
+*   Returns     : None
+*   Description : Adds the start and give up button to the event listener
+*/
 Game.prototype.addEventListeners = function () {
     $(document).on('click', '#give-up', this.gameOver);
     $(document).on('click', '#start-button', this.startGame);
     $(document).on('click', '#restart-button', this.restartGame);
-
 }
 
 /*
-Triggers once the start game button is fired. Hides the start button,
-makes all other fields visible.
+*   Function    : startGame
+*   Parameters  : None
+*   Returns     : None
+*   Description : Checks if difficulty was selected and starts the guessing game.
 */
-
 Game.prototype.startGame = function () {
     if($("#difficulty-normal").prop("checked") || $("#difficulty-hard").prop("checked")){
         //show the input field and guess button
@@ -52,12 +69,14 @@ Game.prototype.startGame = function () {
     }
 }
 
-/* 
-Function gameOver triggers if the player guesses the correct word or the player gives up.
-Stops the clock, hides the guesses, and displays the results
+/*
+*   Function    : gameOver
+*   Parameters  : guess
+*   Returns     : None
+*   Description : Checks the results and ends the game.
 */
 Game.prototype.gameOver = function (guess) {
-    html = Word.winner ? `<div class="winner mka-margin-top-sm">Congrats! You guessed <b>${guess}</b>!</div>` : `<div class="mka-margin-top-sm">Looks like you gave up! The word was <b>${Word.currentWord}</b></div>`;
+    let html = Word.winner ? `<div class="winner mka-margin-top-sm">Congrats! You guessed <span class="mka-txt-color-yellow">${guess}</span>!</div>` : `<div class="mka-margin-top-sm">Looks like you gave up! The word was <span class="mka-txt-color-yellow">${Word.currentWord}</span></div>`;
     Word.guessList.hidden = true;
     for (node of $('#clock').nextAll()) {
         $(node).hide();
@@ -68,8 +87,11 @@ Game.prototype.gameOver = function (guess) {
     $('#main-content').append(html);
 }
 
-/* 
-Lazy way to restart the game, reload the users window.
+/*
+*   Function    : restartGame
+*   Parameters  : None
+*   Returns     : None
+*   Description : Lazy way to restart the game, reload the users window.
 */
 Game.prototype.restartGame = function () {
     location.reload();
@@ -88,15 +110,31 @@ function stopWatch() {
     this.init();
 }
 
+/*
+*   Function    : restartGame
+*   Parameters  : None
+*   Returns     : None
+*   Description : Lazy way to restart the game, reload the users window.
+*/
 stopWatch.prototype.init = function () {
     this.addEventListeners();
 }
+
+/*
+*   Function    : restartGame
+*   Parameters  : None
+*   Returns     : None
+*   Description : Lazy way to restart the game, reload the users window.
+*/
 stopWatch.prototype.addEventListeners = function () {
     return;
 }
 
 /*
-Counting function that adds seconds, minutes, and hours. 
+*   Function    : restartGame
+*   Parameters  : None
+*   Returns     : None
+*   Description : Lazy way to restart the game, reload the users window.
 */
 stopWatch.prototype.add = function () {
     stopWatch.seconds++;
@@ -113,21 +151,30 @@ stopWatch.prototype.add = function () {
 }
 
 /*
-Resets the clock 
+*   Function    : restartGame
+*   Parameters  : None
+*   Returns     : None
+*   Description : Lazy way to restart the game, reload the users window.
 */
 stopWatch.prototype.clear = function () {
     stopWatch.watch.textContent = "Time: 00:00:00";
 }
 
 /*
-starts the timer, with the add helper function
+*   Function    : startTime
+*   Parameters  : None
+*   Returns     : None
+*   Description : 
 */
-stopWatch.prototype.startTime = function (event) {
+stopWatch.prototype.startTime = function () {
     stopWatch.time = setTimeout(stopWatch.add, 1000);
 }
 
 /*
-stops the timer 
+*   Function    : stopTime
+*   Parameters  : None
+*   Returns     : None
+*   Description : Clears the current time time by clearing the interval
 */
 stopWatch.prototype.stopTime = function () {
     clearInterval(stopWatch.time);
@@ -445,6 +492,7 @@ function Word() {
         "tirade",
     ];
 
+
     this.guesses = [];
     this.currentWord;
     this.guessList = document.getElementById('guesses');
@@ -453,19 +501,34 @@ function Word() {
     this.winner = false;
     this.init();
 }
+
+/*
+*   Function    : init
+*   Parameters  : None
+*   Returns     : None
+*   Description : Initializes the Word class.
+*/
 Word.prototype.init = function () {
     this.addEventListeners();
 }
+
 /*
-Adds event listeners to the guess button and user input 
+*   Function    : addEventListeners
+*   Parameters  : None
+*   Returns     : None
+*   Description : Adds event listeners to the dom.
 */
 Word.prototype.addEventListeners = function () {
     $(document).on('click', '#guess-button', this.guessWord);
     $(document).on('keyup', '#user-input', this.guessWord);
 
 }
+
 /*
-get user input 
+*   Function    : getInput
+*   Parameters  : None
+*   Returns     : String containg user input
+*   Description : Grabs the value of the user input.
 */
 Word.prototype.getInput = function () {
     if (Word.invalidInput()){
@@ -474,10 +537,22 @@ Word.prototype.getInput = function () {
     
 }
 
+/*
+*   Function    : clearInput
+*   Parameters  : None
+*   Returns     : None
+*   Description : reset the userInput attribute
+*/
 Word.prototype.clearInput = function(){
     Word.userInput.value = "";
 }
 
+/*
+*   Function    : invalidINput
+*   Parameters  : None
+*   Returns     : Boolean whether or not player entered a valid input.
+*   Description : Checks for valid user input.
+*/
 Word.prototype.invalidInput = function(){
     var warning = document.createElement("small");
     var parent = Word.userInput.parentNode;
@@ -498,12 +573,15 @@ Word.prototype.invalidInput = function(){
 }
 
 /*
-Function guessWord fires once the player makes a guess.
-First check if the game is still going, then get the user input 
-and check if its the correct guess. If it is. Game over function is fired.
-Else check if the guess has already been made. If it hasnt, add the guess to
-an array of already made guesses. Add Li dom element, give the player a hint.
-Reset the user input. 
+*   Function    : guessWord
+*   Parameters  : None
+*   Returns     : None
+*   Description : Function guessWord fires once the player makes a guess.
+                  First check if the game is still going, then get the user input 
+                  and check if its the correct guess. If it is. Game over function is fired.
+                  Else check if the guess has already been made. If it hasnt, add the guess to
+                  an array of already made guesses. Add Li dom element, give the player a hint.
+                  Reset the user input. 
 */
 Word.prototype.guessWord = function (event) {
     if ((event.which === 13 || event.type === "click")) {
@@ -534,7 +612,10 @@ Word.prototype.guessWord = function (event) {
 }
 
 /*
-Check if the guess is a winner 
+*   Function    : isWinner
+*   Parameters  : Guess -> players guess.
+*   Returns     : Boolean of whether or not the guessed word is correct.
+*   Description : 
 */
 Word.prototype.isWinner = function (guess) {
     Word.winner = guess.toLowerCase() == Word.currentWord ? true : false;
@@ -542,7 +623,10 @@ Word.prototype.isWinner = function (guess) {
 }
 
 /*
-Give the player a hint with his guess
+*   Function    : giveHint
+*   Parameters  : None
+*   Returns     : None
+*   Description : Appends a hint to the dom after each guess.
 */
 Word.prototype.giveHint = function () {
     var lastItem = Word.guessList.lastChild;
@@ -560,10 +644,13 @@ Word.prototype.giveHint = function () {
 }
 
 /*
-Select a random word from the list
+*   Function    : setWord
+*   Parameters  : None
+*   Returns     : the word generated
+*   Description : Randomly sets a new word once the game starts.
 */
 Word.prototype.setWord = function () {
-    word =  Game.difficulty == "normal" ? Word.normalWords[Math.floor(Math.random() * Word.normalWords.length)] : Word.hardWords[Math.floor(Math.random() * Word.hardWords.length)]
+    let word =  Game.difficulty == "normal" ? Word.normalWords[Math.floor(Math.random() * Word.normalWords.length)] : Word.hardWords[Math.floor(Math.random() * Word.hardWords.length)]
     Word.currentWord = word;
     return word    
 }
