@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" type="text/css" href="mka-styles.css" />
-    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="stylesheet" type="text/css" href="css/mka-styles.css" />
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
     <title>Guess The Word</title>
 </head>
 
@@ -15,7 +15,7 @@
     <div class="mka-container ">
         <div class="mka-grid mka-center">
             <div class="mka-grid_item-xlg" id="main-content">
-                <h2 id="header">Guess The Word</h2>
+                <h2 id="header" class="mka-txt-color-red">Guess The Word</h2>
                 <p id="guess-count">Guesses: 0</p>
                 <p id="clock">Time: <time>00:00:00</time></p>
                 <fieldset>
@@ -36,7 +36,6 @@
                     <button type="button" class="mka-button" id="guess-button">Guess</button>
                 </span>
                 <ul id="guesses"></ul>
-                <button type="button" class="mka-button" style="display:none;" id="restart-button" hidden>New Game</button>
             </div>
             <div class="mka-grid_item-xlg mka-margin-top-xlg">
                 <button type="button" class="mka-button give-up-button" style="display: none;" id="give-up" hidden>Given Up?</button>
@@ -44,7 +43,11 @@
         </div>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-    <script src="script.js"></script>
+    <script src="js/LocalStore.js"></script>
+    <script src="js/Game.js"></script>
+    <script src="js/Word.js"></script>
+    <script src="js/Watch.js"></script>
+    <script src="js/script.js"></script>
 </body>
 
 </html>
