@@ -74,7 +74,7 @@ Word.prototype.clearInput = function(){
 Word.prototype.validate = function(){
     
     //make sure the word is non numeric, and it hasn't been guessed yet
-    if (Word.userInput.value.search(/[0-9]/) > -1 || Word.guesses.includes(Word.userInput.value)){
+    if (Word.userInput.value.search(/[0-9]|[:;?{}\]\['"/><\\+=\-\_]/) > -1 || Word.guesses.includes(Word.userInput.value)){
 
         //add a class that lets the user know its an incorrect input
         //remove it after a certian amount of time

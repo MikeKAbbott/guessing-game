@@ -56,7 +56,7 @@ Game.prototype.addEventListeners = function () {
 Game.prototype.startGame = function () {
     
     //check for set difficulty and local storage
-    if(($("#difficulty-normal").prop("checked") || $("#difficulty-hard").prop("checked")) && !Drive.findItem(this.todaysDate)){
+    if(($("#difficulty-normal").prop("checked") || $("#difficulty-hard").prop("checked")) && !Drive.findItem(Game.todaysDate)){
         
         //show the input field and guess button
         for (node of this.parentNode.childNodes) {
@@ -78,11 +78,14 @@ Game.prototype.startGame = function () {
     }
 
     //check if user already played the game today
-    else if(Drive.findItem(this.todaysDate)){
-        let html = "<h3 class='mka-txt-color-yellow' id='msg'> You already played today! </h3>";
+    else if(Drive.findItem(Game.todaysDate)){
+        let html = "<h3 id='msg'> You already played today! </h3><p>The word was <span class='mka-txt-color-yellow'>" + Drive.findItem("Word") + "</span></p>";
         if(!$("#msg").length){
             $("#start-button").before(html);
         }
+        $('fieldset').hide();
+        $("#start-button").hide();
+
     }
 }
 
@@ -101,7 +104,8 @@ Game.prototype.gameOver = function (guess) {
     let html = Word.winner ? `<div class="winner mka-margin-top-sm">Congrats! You guessed <span class="mka-txt-color-yellow">${guess}</span>!</div>` : `<div class="mka-margin-top-sm">Looks like you gave up! The word was <span class="mka-txt-color-yellow">${Word.currentWord}</span></div>`;
 
     //create new local storage item
-    Drive.storeItem(this.todaysDate, true);
+    Drive.storeItem(Game.todaysDate, true);
+    Drive.storeItem("Word", Word.currentWord);
     
     //hide game nodes
     Word.guessList.hidden = true;
@@ -110,8 +114,7 @@ Game.prototype.gameOver = function (guess) {
     }
     $('#give-up').hide();
 
-    //show game and add game nodes;
-    $('#restart-button').show();
+    //add results
     $('#main-content').append(html);
 }
 
