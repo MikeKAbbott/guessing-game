@@ -1,0 +1,33 @@
+body {
+    color: #1A5276;
+}
+
+ul {
+    padding: 0;
+}
+
+ul li {
+    list-style: none;
+    margin-bottom: .75rem;
+}
+
+.give-up-button {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    
+}
+
+.error{
+    border-color: red!important;
+    color:red;
+    position:relative;
+    animation: shake .1s linear;
+    animation-iteration-count:3;   
+}
+
+@keyframes shake {
+    0% { left: -5px; }
+    100% { right: -5px; }
+}
+
